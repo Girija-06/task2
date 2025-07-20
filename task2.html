@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #07004d;
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    h1 {
+      font-size: 3rem;
+    }
+    #display {
+      font-size: 3rem;
+      margin: 30px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #start { background-color: green; color: white; }
+    #pause { background-color: orange; color: white; }
+    #reset { background-color: red; color: white; }
+  </style>
+</head>
+<body>
+  <h1>Stopwatch</h1>
+  <div id="display">00:00:00</div>
+  <button id="start">Start</button>
+  <button id="pause">Pause</button>
+  <button id="reset">Reset</button>
+
+  <script>
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let display = document.getElementById("display");
+    let timer = null;
+
+    function updateDisplay() {
+      display.innerText = 
+        String(hours).padStart(2, '0') + ":" +
+        String(minutes).padStart(2, '0') + ":" +
+        String(seconds).padStart(2, '0');
+    }
+
+    function stopwatch() {
+      seconds++;
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+      }
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+      updateDisplay();
+    }
+
+    document.getElementById("start").onclick = () => {
+      if (!timer) {
+        timer = setInterval(stopwatch, 1000);
+      }
+    };
+
+    document.getElementById("pause").onclick = () => {
+      clearInterval(timer);
+      timer = null;
+    };
+
+    document.getElementById("reset").onclick = () => {
+      clearInterval(timer);
+      timer = null;
+      [hours, minutes, seconds] = [0, 0, 0];
+      updateDisplay();
+    };
+  </script>
+</body>
+</html>
